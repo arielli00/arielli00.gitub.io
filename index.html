@@ -1,0 +1,398 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ds4200-6b.GitHub.io by arielli</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>311 Boston Program</h1>
+        <p></p>
+      </header>
+  
+<body/>
+          
+<!-- Load d3.js -->
+<script src="//d3js.org/d3.v4.min.js"></script>
+<div id="my_dataviz"> </div> 
+  
+<style> 
+.bar { fill: steelblue; }
+</style>
+ 
+<script>   
+var data = [{"subject":"Animal Control","count":445},{"subject":"Boston Police Department","count":54},{"subject":"Boston Water & Sewer Commission","count":208},{"subject":"Customer Affairs and Licensing","count":2},{"subject":"Inspectional Services","count":2905},
+{"subject":"Mayer's 24H Hotline","count":445},{"subject":"Neighborhood Services","count":5},{"subject":"Parks and Recreation Department","count":1459},{"subject":"Property Management","count":914},{"subject":"Public Works Department","count":20589},
+{"subject":"Trasportation - Traffic Division","count":9842}];
+
+// set the dimensions and margins of the graph
+var margin = {top: 200, right: 20, bottom: 150, left: 180},
+    width = 960 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+
+// set the ranges
+var y = d3.scaleBand()
+          .range([height, 0])
+          .padding(0.1);
+
+var x = d3.scaleLinear()
+          .range([0, width]);
+          
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  // format the data
+  data.forEach(function(d) {
+    d.count = +d.count;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain([0, 21000])
+  y.domain(data.map(function(d) { return d.subject; }));
+  //y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+  // append the rectangles for the bar chart
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      //.attr("x", function(d) { return x(d.count); })
+      .attr("width", function(d) {return x(d.count); } )
+      .attr("y", function(d) { return y(d.subject); })
+      .attr("height", y.bandwidth())
+      .on("mouseover", function(d){
+        d3.select(this).style("fill", "red");
+            tooltip.style("left", d3.event.pageX - 50 + "px")
+      .style("top", d3.event.pageY - 70 + "px")
+      .style("display", "inline-block")
+      .html("The Number of Incidents is: " + d.count);
+  })
+      .on("mouseout", mouseout); 
+     
+  var tooltip = d3.select("body").append("div").attr("class", "toolTip")
+    .style("position", "absolute")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
+  
+  //From class notes
+
+            
+
+  //From class notes
+  function mouseout() {
+    d3.select(this).style("fill", "steelblue");
+    tooltip.style("display", "none");
+  }
+
+    //add title
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 5.8))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Number of Incidents by Subject");
+  
+  // add the x Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+  
+    // text label for the x axis
+  svg.append("text")
+    .attr("x", 0)
+    .attr("y", 320)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(" + width/2 + ",80)")
+    .text("Number of Incidents"); 
+
+  // add the y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));  
+
+  // text label for the y axis
+  svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Subject"); 
+
+</script>
+
+
+<!-- Create a div where the scatter plot will take place -->
+<div id="my_datavizz"></div>
+<script src="scatter.js"> </script>
+
+    
+ 
+<!-- Create a div where the scatter plot will take place -->
+<div id="my_datavizz"></div>
+<script src="scatter.js"> </script>
+
+    
+ 
+<!-- Create a div where the line graph will take place -->   
+<div id="my_datavizzz"> </div> 
+<style>
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+</style>
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 200, right: 130, bottom: 150, left: 80},
+    width = 960 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+	
+// parse the date / time
+var parseTime = d3.timeParse("%m/%d/%y");
+
+// set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// define the 1st line
+var valueline = d3.line()
+    .x(function(d) { return x(d.day); })
+    .y(function(d) { return y(d.mayor); });
+
+// define the 2nd line
+var valueline2 = d3.line()
+    .x(function(d) { return x(d.day); })
+    .y(function(d) { return y(d.police); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var line = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+	
+// Get the data
+d3.csv("test.csv", function(error, data) {
+  if (error) throw error;
+console.log()
+	
+  // format the data
+  data.forEach(function(d) {
+      d.day = parseTime(d.day);
+      d.mayor = +d.mayor;
+      d.police = +d.police;
+  });
+
+  // Scale the range of the data
+  x.domain(d3.extent(data, function(d) { return d.day; }));
+  y.domain([0, d3.max(data, function(d) {
+	  return Math.max(d.mayor, d.police); })]);
+
+  // Add the valueline path.
+  line.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+  // Add the valueline2 path.
+  line.append("path")
+      .data([data])
+      .attr("class", "line")
+      .style("stroke", "red")
+      .attr("d", valueline2);
+
+  // Add the X Axis
+  line.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // Add the Y Axis
+  line.append("g")
+      .call(d3.axisLeft(y));
+
+});
+	
+  //add title
+  line.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 5.8))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Number of Incidents by Date");
+
+  // text label for the x axis
+  line.append("text")
+    .attr("x", 0)
+    .attr("y", 320)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(" + width/2 + ",80)")
+    .text("Date"); 
+
+  // text label for the y axis
+  line.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left+30)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Number of Incidents"); 
+
+line.append("text")
+	.attr("transform", "translate(" + (width-5) + "," + (height-355) + ")")
+	.attr("dy", ".35em")
+	.attr("text-anchor", "start")
+	.style("fill", "steelblue")
+	.text("Mayor's 24 Hour Hotline");
+
+line.append("text")
+	.attr("transform", "translate(" + (width-5) + "," + (height-32) + ")")
+	.attr("dy", ".35em")
+	.attr("text-anchor", "start")
+	.style("fill", "red")
+	.text("Boston Police Department");
+
+</script>
+
+<!-- Create a div where the fourth graph with buttons will take place -->
+<div id="my_dataviz4"></div>
+	  
+<!-- Add 2 buttons -->
+<button onclick="update(data1)">Boston Water & Sewer Commission</button>
+<button onclick="update(data2)">Animal Control</button>
+
+<script>
+
+// create 2 data_set
+var data1 = [
+   {group: "Boston Water & Sewer Commission", value: 208}
+];
+
+var data2 = [
+   {group: "Animal Control", value: 445}
+];
+
+// set the dimensions and margins of the graph
+var margin = {top: 200, right: 180, bottom: 150, left: 80},
+    width = 960 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var button = d3.select("#my_dataviz4")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Initialize the X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding(0.2);
+var xAxis = button.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+// Initialize the Y axis
+var y = d3.scaleLinear()
+  .range([ height, 0]);
+var yAxis = button.append("g")
+  .attr("class", "myYaxis")
+
+
+// A function that create / update the plot for a given variable:
+function update(data) {
+
+  // Update the X axis
+  x.domain(data.map(function(d) { return d.group; }))
+  xAxis.call(d3.axisBottom(x))
+
+  // Update the Y axis
+  y.domain([0, d3.max(data, function(d) { return d.value }) ]);
+  yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+  // Create the u variable
+  var u = button.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect") // Add a new rect for each new elements
+    .merge(u) // get the already existing elements as well
+    .transition() // and apply changes to all of them
+    .duration(1000)
+      .attr("x", function(d) { return x(d.group); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", "#69b3a2")
+
+  // If less group in the new dataset, I delete the ones not in use anymore
+  u
+    .exit()
+    .remove()
+}
+
+// Initialize the plot with the first dataset
+update(data1)
+	
+ //add title
+  button.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 5.8))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Number of Incidents for 2 Specific Subject");
+
+  // text label for the x axis
+  button.append("text")
+    .attr("x", 0)
+    .attr("y", 320)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(" + width/2 + ",80)")
+    .text("Subject"); 
+
+  // text label for the y axis
+  button.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left+30)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Number of Incidents"); 
+
+</script>	  
+
+  
+  </script>
+  </body>
+</html>
